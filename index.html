@@ -8,7 +8,7 @@
 <body>
 
   <div class="wrapper">
-    <h2 contenteditable="true">STAIRCASE</h2>
+    <h2 class="title" contenteditable="true">STAIRCASE</h2>
     <p></p>
     <ul class="plates">
       <li>Start your list....</li>
@@ -28,6 +28,9 @@
   const itemsList = document.querySelector('.plates');
   let items = JSON.parse(localStorage.getItem('items')) || [];
   
+  const titleClass = document.querySelector('.title');
+  let titleVar = JSON.parse(localStorage.getItem('titleVar')) || [];
+
   // buttons
   const clear = addItems.querySelector('[name=clear]');
   const check = addItems.querySelector('[name=check]');
@@ -57,6 +60,8 @@
       </li>
       `;
     }).join(''); // removes the comma between each index
+
+    titleClass.innerHTML = titleVar;
   }
 
   function toggleChecked(e) {
@@ -103,11 +108,20 @@
     localStorage.setItem('items', JSON.stringify(items));
   }
 
+  function storeTitle(e) {
+    // query title 
+    const titleVar = e.target.innerHTML;
+    
+    // store title locally
+    localStorage.setItem('titleVar', JSON.stringify(titleVar));
+  }
+
   addItems.addEventListener('submit', addItem);
   itemsList.addEventListener('click', toggleChecked);
   clear.addEventListener('click', clearList);
   check.addEventListener('click', checkList);
   uncheck.addEventListener('click', uncheckList);
+  titleClass.addEventListener('focusout', storeTitle);
 
   populateList(items, itemsList);
 </script>
