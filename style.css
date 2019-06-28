@@ -58,6 +58,7 @@ h2:focus {
 .plates label {
   flex: 1;
   cursor: pointer;
+  position: relative;
 }
 
 .plates input {

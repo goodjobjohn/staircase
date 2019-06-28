@@ -13,6 +13,9 @@ intuitively simple, noise free, goal making, task managing, todo creating brain 
 
 
 ### changelog
+28 jun 2019 ---
+added ability to remove item from list
+
 27 jun 2019 ---
 added ability to change title and store value
 

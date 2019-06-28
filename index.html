@@ -17,7 +17,7 @@
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
       <button type="button" name="clear">Clear</button>
-      <button type="button" name="check" >Check</button>
+      <button type="button" name="check">Check</button>
       <button type="button" name="uncheck">Uncheck</button>
     </form>
 
@@ -56,7 +56,7 @@
       return `
       <li>
           <input type="checkbox" data-index=${i} id="item${i}" ${item.done ? 'checked' : ''} />
-          <label for="item${i}">${item.text}</label>
+          <label for="item${i}">${item.text}</label><button type="button" name="delete">Delete</button>
       </li>
       `;
     }).join(''); // removes the comma between each index
@@ -64,13 +64,38 @@
     titleClass.innerHTML = titleVar;
   }
 
-  function toggleChecked(e) {
-    if (!event.target.matches('input')) return; // ignore non input clicks
-    const el = e.target;
+  function itemFunction(e) {
+    // store event target so it can be passed to other functions
+    const target = event.target;
+    // console.log(target);
+    // check to see if click event is an input
+    if (target.matches('input')) toggleChecked(target);
+    
+    // check to see if click event is a button
+    if (target.matches('button')) deleteItem(target);
+  }
+
+  function toggleChecked(target) {
+    const el = target;
     const index = el.dataset.index;
     //console.log(el);
     items[index].done = !items[index].done;
     localStorage.setItem('items', JSON.stringify(items));
+    populateList(items,itemsList);
+  }
+
+  function deleteItem(target) {
+    const el = target;
+    // recover index no. of item (input)
+    const deleteItem = el.parentNode.querySelector('[type=checkbox]').dataset.index;
+
+    // remove item using .splice and index number(deleteNumber) from lists array
+    items.splice(deleteItem, 1);
+    
+    // remove item from localStorage
+    localStorage.setItem('items', JSON.stringify(items));
+    
+    // rebuild altered list in html
     populateList(items,itemsList);
   
   }
@@ -117,7 +142,7 @@
   }
 
   addItems.addEventListener('submit', addItem);
-  itemsList.addEventListener('click', toggleChecked);
+  itemsList.addEventListener('click', itemFunction);
   clear.addEventListener('click', clearList);
   check.addEventListener('click', checkList);
   uncheck.addEventListener('click', uncheckList);
