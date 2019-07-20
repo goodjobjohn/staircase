@@ -6,24 +6,31 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <div class="wrapper">
-    <h2 class="title" contenteditable="true">STAIRCASE</h2>
+  <button type="button" name="add-list" value="add list here">+</button>
+  <div class="lists">
+    <div class="list">
+      <h2 class="title" contenteditable="true">STAIRCASE</h2>
+      <p></p>
+      <ul class="plates">
+        <li>Start your list....</li>
+      </ul>
+      <form class="add-items">
+        <input type="text" name="item" placeholder="Item Name" required>
+        <input type="submit" value="+ Add Item">
+        <button type="button" name="clear">Clear</button>
+        <button type="button" name="check">Check</button>
+        <button type="button" name="uncheck">Uncheck</button>
+      </form>
+    </div>
     <p></p>
-    <ul class="plates">
-      <li>Start your list....</li>
-    </ul>
-    <form class="add-items">
-      <input type="text" name="item" placeholder="Item Name" required>
-      <input type="submit" value="+ Add Item">
-      <button type="button" name="clear">Clear</button>
-      <button type="button" name="check">Check</button>
-      <button type="button" name="uncheck">Uncheck</button>
-    </form>
 
   </div>
 
 <script>
+
+  // declare vars
+  const lists = document.querySelector('.lists');
+  const addList = document.querySelector('[name=add-list]');
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
   let items = JSON.parse(localStorage.getItem('items')) || [];
@@ -35,6 +42,23 @@
   const clear = addItems.querySelector('[name=clear]');
   const check = addItems.querySelector('[name=check]');
   const uncheck = addItems.querySelector('[name=uncheck]');
+
+  const listHTML = `<div class="list">
+                      <h2 class="title" contenteditable="true">STAIRCASE</h2>
+                      <li>
+                        <div class="item-text" contenteditable="true">this is an item</div>
+                        <div class="check-item"></div><div class="delete-item"></div>
+                      </li>
+                      <div class="new-item">+</div>
+                    </div>
+                    <p></p>`;
+
+  const itemHTML = `<li>
+                        <div class="item-text" contenteditable="true">this is an item</div>
+                        <div class="check-item"></div><div class="delete-item"></div>
+                    </li>`;
+
+  // FUNCTIONS
 
   function addItem(e) {
     e.preventDefault(); // Stop page reloading on submit
@@ -56,7 +80,7 @@
       return `
       <li>
           <input type="checkbox" data-index=${i} id="item${i}" ${item.done ? 'checked' : ''} />
-          <label for="item${i}">${item.text}</label><button type="button" name="delete">Delete</button>
+          <label for="item${i}">${item.text}</label><button type="button" name="delete">X</button>
       </li>
       `;
     }).join(''); // removes the comma between each index
@@ -142,13 +166,64 @@
   }
 
   addItems.addEventListener('submit', addItem);
-  itemsList.addEventListener('click', itemFunction);
+  // itemsList.addEventListener('click', itemFunction);
   clear.addEventListener('click', clearList);
   check.addEventListener('click', checkList);
   uncheck.addEventListener('click', uncheckList);
   titleClass.addEventListener('focusout', storeTitle);
 
   populateList(items, itemsList);
+
+  // ******************************************************************** NEW LIST
+
+  function addListOnClick(e) {
+    lists.insertAdjacentHTML('beforeend', listHTML);
+  }
+  
+  // a click anywhere inside .lists triggers this function
+  // here we identify the click event target and call the correct function
+  function listClickEvent(e) {
+    // query list title
+    // const list = e.target.parentNode.querySelector('.title').innerHTML;
+    const click = e.target;
+    //console.log(e.target);
+    
+    // Check Item: Delete in future
+    if (e.target.matches('[type=checkbox]')) {
+      console.log('check item');
+    } 
+    // Check Item 
+    if (e.target.matches('.check-item')) {
+      console.log('check list item');
+    } 
+    
+    // Delete Item
+    if (e.target.matches('.delete-item')) {
+      console.log('DELETE item');
+      e.target.parentNode.remove();
+    } 
+      
+    // Add new item to list
+    if (e.target.matches('.new-item')) {
+      console.log(e.target)
+      e.target.insertAdjacentHTML('beforebegin', itemHTML);
+    }
+
+    //if (e.target.matches.)
+    // delete item from list
+
+    // check item on list
+    
+    // if e.target == title continue with title as list 
+  }
+  
+  // add new list button click
+  addList.addEventListener('click', addListOnClick);
+
+  // any click inside .lists
+  lists.addEventListener('click', listClickEvent);
+
+  
 </script>
 
 

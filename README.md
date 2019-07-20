@@ -2,9 +2,21 @@
 intuitively simple, noise free, goal making, task managing, todo creating brain tool.
 
 ### todos
-- delete individual line
-- multiple lists
-- place all list functions under one event listener
+[x] delete individual line
+[] multiple lists::
+    [x] insert list after last list on page on button event using .insertAdjacentHTML
+    [x] identify target of click event and call related function
+    [] add list to localStorage
+    [x] add item to list button
+    [x] add item creates new item
+    [x] delete button deletes item
+    [] store item to list
+    [] enter on list item adds new item
+
+[] code restructure::
+    [] single function for list object and localStorage manipulation
+    [] place all event functions inside list event
+
 
 ### changelog
 02 jul 2019 ---

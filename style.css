@@ -23,11 +23,10 @@ svg {
   margin-bottom: 50px;
 }
 
-.wrapper {
+.list {
   padding: 20px;
   max-width: 350px;
-  background: rgba(255,255,255,0.95);
-  box-shadow: 0 0 0 10px rgba(0,0,0,0.1);
+  background: lightgrey;
 }
 
 h2 {
@@ -53,6 +52,32 @@ h2:focus {
   padding: 10px 0;
   font-weight: 100;
   display: flex;
+}
+
+.list { 
+  padding: 20px; 
+  position: relative;
+} 
+.list li {
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  padding: 10px 0;
+  font-weight: 100;
+  display: flex;
+  text-align: left;
+}
+.list .item-text { width: 100%; }
+.list .item-text:focus { outline: none; }
+.list .check-item { width: 20px; margin-right: 10px; }
+.list .delete-item { width: 20px; }
+.list li:hover .check-item { background: green; }
+.list li:hover .delete-item { background-color: red; }
+.new-item {
+  width: 40px;
+  content: "+";
+  position: absolute;
+  bottom: 5px;
+  right: -5px;
+  cursor: crosshair;
 }
 
 .plates label {
