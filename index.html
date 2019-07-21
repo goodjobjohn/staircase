@@ -51,12 +51,7 @@
                       </li>
                       <div class="new-item">+</div>
                     </div>
-                    <p></p>`;
-
-  const itemHTML = `<li>
-                        <div class="item-text" contenteditable="true">this is an item</div>
-                        <div class="check-item"></div><div class="delete-item"></div>
-                    </li>`;
+                    `;
 
   // FUNCTIONS
 
@@ -165,8 +160,10 @@
     localStorage.setItem('titleVar', JSON.stringify(titleVar));
   }
 
+  // EVENT LISTENERS 
+
   addItems.addEventListener('submit', addItem);
-  // itemsList.addEventListener('click', itemFunction);
+  itemsList.addEventListener('click', itemFunction);
   clear.addEventListener('click', clearList);
   check.addEventListener('click', checkList);
   uncheck.addEventListener('click', uncheckList);
@@ -174,10 +171,33 @@
 
   populateList(items, itemsList);
 
-  // ******************************************************************** NEW LIST
+  // STAIRCASE VARIABLES
+
+  let myBigObject = JSON.parse(localStorage.getItem('myBigObject')) || [];
+  const newItemHTML = `<li>
+                        <div class="item-text" contenteditable="true"></div>
+                        <div class="check-item"></div><div class="delete-item"></div>
+                    </li>`;
+  const titleFocus = document.querySelectorAll('.title');
+  let lastTitle = titleFocus[titleFocus.length- 1]; // Need to learn how this works 
+  
+  // STAIRCASE - FUNCTIONS
 
   function addListOnClick(e) {
     lists.insertAdjacentHTML('beforeend', listHTML);
+    //lists.lastChild.querySelector('.title').focus();
+    const lastListInNode = lists.lastElementChild;
+    lastListInNode.querySelector('.title').focus();
+    console.log(lastListInNode);
+    //let lastTitle = titleFocus[titleFocus.length- 1];
+  }
+
+  function saveTitleOnUnfocus(e) {
+    // query title 
+    const title = e.target.innerHTML;
+    console.log(title);
+    // store title locally
+    // localStorage.setItem('titleVar', JSON.stringify(titleVar));
   }
   
   // a click anywhere inside .lists triggers this function
@@ -205,8 +225,10 @@
       
     // Add new item to list
     if (e.target.matches('.new-item')) {
-      console.log(e.target)
-      e.target.insertAdjacentHTML('beforebegin', itemHTML);
+      console.log(e.target.previousSibling)
+      e.target.insertAdjacentHTML('beforebegin', newItemHTML);
+      e.target.previousSibling.querySelector('.item-text').focus();
+      
     }
 
     //if (e.target.matches.)
@@ -217,11 +239,13 @@
     // if e.target == title continue with title as list 
   }
   
+  // STAIRCASE - EVENT LISTENERS
+
   // add new list button click
   addList.addEventListener('click', addListOnClick);
-
   // any click inside .lists
   lists.addEventListener('click', listClickEvent);
+  lastTitle.addEventListener('focusout', saveTitleOnUnfocus);
 
   
 </script>

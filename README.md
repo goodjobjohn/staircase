@@ -5,10 +5,13 @@ intuitively simple, noise free, goal making, task managing, todo creating brain 
 [x] delete individual line
 [] multiple lists::
     [x] insert list after last list on page on button event using .insertAdjacentHTML
+    [] when new list is created move cursor to first item
     [x] identify target of click event and call related function
     [] add list to localStorage
     [x] add item to list button
     [x] add item creates new item
+    [x] when add item the cursor moves to the new item
+    [] enter on item creates new item
     [x] delete button deletes item
     [] store item to list
     [] enter on list item adds new item
