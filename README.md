@@ -1,24 +1,48 @@
 # staircase
-intuitively simple, noise free, goal making, task managing, todo creating brain tool.
+intuitively simple, noise free, goal making, task managing, todo creating brain tool for the visual thinker.
 
-### todos
-[x] delete individual line
-[] multiple lists::
-    [x] insert list after last list on page on button event using .insertAdjacentHTML
-    [] when new list is created move cursor to first item
-    [x] identify target of click event and call related function
-    [] add list to localStorage
-    [x] add item to list button
-    [x] add item creates new item
-    [x] when add item the cursor moves to the new item
-    [] enter on item creates new item
-    [x] delete button deletes item
-    [] store item to list
-    [] enter on list item adds new item
+## proccess
+click + adds list to page with title input
+'press enter' saves title and adds 'add item' input to list, focus moves to new input
+- empty title won't save
+'press enter' saves item, adds item to list, and clears input, focus back on empty input.
+
+## todos
+current:
+ stuck on finding the index for the item to update the item 
+ itemIndex has the title at index 0 so i needed to -1 on the index to get the correct one
+ trying to grab value on e.target when i needed the text, e.target.value vs e.target.innerhtml
+
+action: localSotage
+ [x] build from localStorage
+
+action: click + Add list button
+ [x] adds list html to page with title
+ [x] focus moves to title input
+ [x] store new list in db
+ 
+action: enter on title
+ [x] saves to storage (if empty, nothing)
+ [x] adds + add item input to list
+ [x] focus moves to input
+ [x]  fix double input when title exists
+ 
+
+action: enter on item input
+ [x] saves item to storage
+ [x] inserts item into HTML
+ [x] clears input, focus returns
+ [x] can save more than one
+ [x] a second enter doesn't add another item input / seperate creat item with edit
 
 [] code restructure::
     [] single function for list object and localStorage manipulation
     [] place all event functions inside list event
+
+code cleanup::
+sanitise input text, remove spaces etc
+
+* Notes
 
 
 ### changelog
