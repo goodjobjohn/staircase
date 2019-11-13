@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
     "dev": "webpack --mode development",
     "build": "webpack --mode production"
   },
@@ -26,6 +27,7 @@
     "sortablejs": "^1.10.1"
   },
   "devDependencies": {
+    "@types/sortablejs": "^1.10.0",
     "css": "^2.2.4",
     "css-loader": "^3.2.0",
     "loader": "^2.1.1",
