@@ -110,8 +110,11 @@ sanitise input text, remove spaces etc
 
 
 ### changelog
+26.12.19 - 
+- seperate key press functionality
+
 23.11.19 - 0.0.1
-- restructuring html to improve elements inside the list
+- refactor html to improve elements inside the list
 - start using proper version
   
 12.11.19

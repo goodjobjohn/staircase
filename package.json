@@ -1,7 +1,7 @@
 {
   "name": "staircase",
   "version": "1.0.0",
-  "description": "tosee not todo",
+  "description": "to see not todo",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,7 +15,8 @@
   },
   "keywords": [
     "todo",
-    "planner"
+    "planner",
+    "schedule"
   ],
   "author": "John Basham",
   "license": "MIT",
@@ -28,9 +29,12 @@
     "sortablejs": "^1.10.1"
   },
   "devDependencies": {
+    "autoprefixer": "^9.7.3",
     "css": "^2.2.4",
     "css-loader": "^3.2.0",
+    "file-loader": "^5.0.2",
     "loader": "^2.1.1",
+    "postcss-loader": "^3.0.0",
     "style-loader": "^1.0.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"

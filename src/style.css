@@ -1,15 +1,25 @@
+/* COLOUR */
+:root {
+  --cream: #fffcf5;
+}
+
 html {
   box-sizing: border-box;
-  background-color: #FFFCF5;
+  background-color: var(--cream);
   min-height: 100vh;
   display: flex;
   font-family: sans-serif;
 }
 
-body { width:100%; }
+body {
+  width: 100%;
+  padding: 20px;
+}
 
-*, *:before, *:after {
-  box-sizing: inherit;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 
 h2 {
@@ -24,41 +34,50 @@ h2:focus {
   background-color: beige;
 }
 
-/*** KEY ELEMENTS ***/ 
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
 
+/*** KEY ELEMENTS ***/
+
+/* LIST */
 .add-list {
   border-radius: 20px;
   padding: 10px;
-  left:15px;
+  left: 15px;
   top: 15px;
   display: block;
 }
-
-.list-container { 
+.list-container {
   width: 100%;
   display: flex;
-} 
-
+}
 .list {
   position: relative;
   padding: 0px;
   width: 230px;
   /* background: #E5E5E5; */
-  border: 1px solid #E5E5E5;
-  margin: 5px;
+  border: 1px solid #e5e5e5;
+  margin: 15px;
   border-radius: 3px;
   height: fit-content;
 }
+.list:hover {
+  box-shadow: 0px 0px 5px #33333329;
+}
+
 .list__title {
   color: rgba(0, 0, 0, 0.62);
   font-size: 17px;
   margin: 20px 0 10px 10px;
   display: inline-block;
 }
-.list__title:focus, 
-.list__title:hover  {
+.list__title:focus,
+.list__title:hover {
   outline: none;
-  background-color: beige;  
+  background-color: beige;
 }
 .list__delete {
   position: absolute;
@@ -75,12 +94,12 @@ h2:focus {
 .list__delete:hover {
   opacity: 1;
 }
-.list__delete:before, 
+.list__delete:before,
 .list__delete:after {
   position: absolute;
   right: 10px;
   top: 5px;
-  content: ' ';
+  content: " ";
   height: 12px;
   width: 2px;
   background-color: #333;
@@ -89,46 +108,6 @@ h2:focus {
 .list__delete:after {
   transform: rotate(135deg);
 }
-  
-.item {
-  border-bottom: 1px dotted rgba(0,0,0,0.2);
-  border-radius: 3px;
-  font-size: 12px;
-  padding: 10px;
-  font-weight: 100;
-  display: flex;
-  position: relative;
-  text-align: left;
-  /* background-color: #FFFFFF; */
-}
-.item:hover {
-  box-shadow: #575757;
-}
-.item:focus { outline: none;}
-.item:hover .item__delete, .item:hover .item__check { display:inline-block; }
-
-.item__delete, .item__check {
-  width: 10px;
-  position: absolute;
-  right: 5px;
-  display: none;
-}
-
-.item__check { right: 25px; }
-.item.checked { text-decoration-line: line-through; }
-
-.item__text { 
-  width: 100%; 
-  height: 25px;
-  background-color: antiquewhite;
-  font-size: 12px;
-  color: #575757;
-}
-
-[contentEditable=true]:empty:before{
-  content:attr(data-text)
-}
-
 .list__add-item {
   background: none;
   color: #575757;
@@ -136,11 +115,101 @@ h2:focus {
   padding: 10px 5px 5px 10px;
   margin-bottom: 20px;
 }
-.list__add-item::placeholder { color: #C4C4C4;}
-.list__add-item:focus { outline: none; }
+.list__add-item::placeholder {
+  color: #c4c4c4;
+}
+.list__add-item:focus {
+  outline: none;
+}
 
+/* ITEM */
+.item {
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  padding: 5px 10px 5px 20px;
+  font-weight: 100;
+  display: flex;
+  position: relative;
+  text-align: left;
+  z-index: 100;
+  background-color: var(--cream);
+  height: 35px;
+  align-items: center;
+}
+.item:hover {
+  box-shadow: 0px 0px 5px #33333329;
+  width: 105%;
+  transform: translateX(-11px);
+  padding-left: 31px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  z-index: 200;
+}
+.item:focus {
+  outline: none;
+}
+.item:hover .item__delete,
+.item:hover .item__check,
+.item:hover .item__handle {
+  display: inline-block;
+}
+.item__text {
+  width: 100%;
+  /* background-color: antiquewhite; */
+  font-size: 12px;
+  color: #575757;
+}
+.item__text:focus {
+  outline: none;
+}
+.item__delete,
+.item__check {
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  display: none;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.item__check {
+  right: 35px;
+  /* background-image: url(images/tick.svg); */
+  mask: url(images/tick.svg) no-repeat center center;
+  background-color: #a5d6a5;
+}
+.item__check:hover {
+  background-color: lawngreen;
+}
+.item__delete {
+  right: 0px;
+  mask: url(images/cross.svg) no-repeat center center;
+  background-color: rgb(255, 143, 143);
+}
+.item__delete:hover {
+  background-color: rgb(248, 103, 103);
+}
+.item.checked {
+  text-decoration-line: line-through;
+}
+.item__handle {
+  height: 35px;
+  width: 35px;
+  /* background-color: var(--cream); */
+  background-image: url(images/handle.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: absolute;
+  left: 0px;
+  top: 0;
+  display: none;
+  padding: 0px;
+  z-index: -100;
+  cursor: grab;
+  text-align: center;
+  line-height: 35px;
+}
 
-
-
-
-
+/* THIS MAGIC CREATES PLACEHOLDER TEXT SOMEHOW.????  */
+[contentEditable="true"]:empty:before {
+  content: attr(data-text);
+}
