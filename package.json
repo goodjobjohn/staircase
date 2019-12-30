@@ -1,0 +1,42 @@
+{
+  "name": "staircase",
+  "version": "1.0.0",
+  "description": "to see not todo",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goodjobjohn/staircase.git"
+  },
+  "keywords": [
+    "todo",
+    "planner",
+    "schedule"
+  ],
+  "author": "John Basham",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goodjobjohn/staircase/issues"
+  },
+  "homepage": "https://github.com/goodjobjohn/staircase#readme",
+  "dependencies": {
+    "@types/sortablejs": "^1.10.0",
+    "sortablejs": "^1.10.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.7.3",
+    "css": "^2.2.4",
+    "css-loader": "^3.2.0",
+    "file-loader": "^5.0.2",
+    "loader": "^2.1.1",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
+}
