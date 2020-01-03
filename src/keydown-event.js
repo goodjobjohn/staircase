@@ -1,6 +1,9 @@
 // KEYDOWN EVENT on .lists element
+import { listData, listContainer } from "./app.js";
+
 function listContainerKeyDownEvent(e) {
-  let thisListNode = e.target.parentElement;
+  const thisListNode = e.target.closest(".list");
+  // let thisListNode = e.target.parentElement;
   let thisListIndex = Array.from(thisListNode.parentElement.children).indexOf(
     thisListNode
   );
@@ -67,17 +70,19 @@ function listContainerKeyDownEvent(e) {
     }
 
     // ITEM :: UPDATE
-    if (e.target.matches(".item")) {
+    if (e.target.matches(".item__text")) {
       // cancel the default action, if needed
-      // event.preventDefault();
+      event.preventDefault();
       // grab value from input
       const itemText = e.target.innerHTML;
       // find index of item
-      const thisList = "li.item"; // no longer needed?
-      const itemArray = Array.from(thisListNode.children);
+      // const thisList = "li.item"; // no longer needed?
+      const itemArray = Array.from(thisListNode.querySelector("ul").children);
       // index of item
+
       // needs -1 to account for title element in the nodelist
-      const itemIndex = itemArray.indexOf(e.target) - 1;
+      const itemIndex = itemArray.indexOf(e.target.parentElement);
+
       // save item
       listData[thisListIndex].items[itemIndex].itemText = itemText;
     }

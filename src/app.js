@@ -7,6 +7,8 @@ var newList;
 const listContainer = document.querySelector(".list-container");
 const addListButton = document.querySelector("[name=add-list]");
 
+export { listData, listContainer };
+
 // html to be inserted
 // changed h2 to div - <h2 class="title" contenteditable="true" data-text="+ Add title"></h2>
 const listHTML = `<div id="list" class="list">
@@ -31,7 +33,7 @@ function loadStaircase(listData, listContainer) {
     // create an array to push items into.
     let listString = [];
     // loop through items
-    for (i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++) {
       // check if item is checked
       let checked = "";
       if (items[i].check === true) {
