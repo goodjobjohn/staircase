@@ -1,4 +1,7 @@
+//
 // KEYDOWN EVENT on .lists element
+//
+
 import { listData, listContainer } from "./app.js";
 
 function listContainerKeyDownEvent(e) {
@@ -8,10 +11,17 @@ function listContainerKeyDownEvent(e) {
     thisListNode
   );
 
+  //
+  // KEYPRESS :: ENTER KEY
+  //
+
   // Checking if keydown event matches 'tab' or 'enter'
   // if true continue...
   if (event.key === "Enter") {
-    // RETRIEVE AND STORE TITLE
+    //
+    // TITLE :: SAVE
+    //
+
     // if event matches our title element continue...
     if (e.target.matches(".list__title")) {
       // cancel the default action, if needed
@@ -41,7 +51,10 @@ function listContainerKeyDownEvent(e) {
       listData[thisListIndex].title = title;
     }
 
+    //
     // ITEM :: ADD
+    //
+
     if (e.target.matches(".list__add-item")) {
       // cancel the default action, if needed
       event.preventDefault();
@@ -56,7 +69,7 @@ function listContainerKeyDownEvent(e) {
       // push item to list
       listData[thisListIndex].items.push(newItem);
       // html to insert into list
-      const itemHtml = `<li class="item" contenteditable="true">
+      const itemHtml = `<li class="item">
                           <div class="item__text" contenteditable="true" data-text="Enter text here">${itemText}</div>
                           <div class="item__check" contenteditable="false"></div>
                           <div class="item__delete" contenteditable="false"></div>
@@ -69,7 +82,10 @@ function listContainerKeyDownEvent(e) {
       e.target.value = "";
     }
 
+    //
     // ITEM :: UPDATE
+    //
+
     if (e.target.matches(".item__text")) {
       // cancel the default action, if needed
       event.preventDefault();
@@ -85,10 +101,50 @@ function listContainerKeyDownEvent(e) {
 
       // save item
       listData[thisListIndex].items[itemIndex].itemText = itemText;
+
+      // insert new item below current item
+      const itemHtml = `<li class="item">
+                          <div class="item__text" contenteditable="true" data-text="Enter text here"></div>
+                          <div class="item__check" contenteditable="false"></div>
+                          <div class="item__delete" contenteditable="false"></div>
+                          <div class="item__handle" contenteditable="false"></div>
+                          </li>`;
+
+      e.target.parentElement.insertAdjacentHTML("afterend", itemHtml);
+
+      // move cursor to new item
+      e.target.parentElement.nextSibling.firstElementChild.focus();
     }
 
     // store item locally
     localStorage.setItem("listData", JSON.stringify(listData));
+  }
+
+  //
+  // KEYPRESS :: ARROW DOWN
+  //
+
+  if (event.key === "ArrowDown") {
+    const itemBelow = e.target.parentNode;
+
+    if (itemBelow.nextSibling != null) {
+      // get position of caret
+      console.log(e.target.typeof());
+
+      // move focus to next item
+      itemBelow.nextSibling.firstElementChild.focus();
+      // move caret to same position
+    }
+  }
+
+  //
+  // KEYPRESS :: ARROW UP
+  //
+
+  if (event.key === "ArrowUp") {
+    if (e.target.parentNode.previousSibling != null) {
+      e.target.parentNode.previousSibling.firstElementChild.focus();
+    }
   }
 }
 

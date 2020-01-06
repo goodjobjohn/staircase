@@ -210,6 +210,6 @@ ul {
 }
 
 /* THIS MAGIC CREATES PLACEHOLDER TEXT SOMEHOW.????  */
-[contentEditable="true"]:empty:before {
+/* [contentEditable="true"]:empty:before {
   content: attr(data-text);
-}
+} */
