@@ -4,7 +4,8 @@ import "./style.css";
 // JS
 import "../node_modules/sortablejs/Sortable.js";
 import "./app.js";
-import "./keydown-event.js";
+import "./functions/keyboard-event.js";
+import "./functions/caret-position.js";
 
 // IMAGES
 import "./images/tick.svg";

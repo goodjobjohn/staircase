@@ -108,6 +108,10 @@ sanitise input text, remove spaces etc
 
 * Notes
 
+### Design Decisions
+
+Item is a text-editable div rather than an input as it allows for formatting ie. bold, italics and underline. 
+
 
 ### changelog
 26.12.19 - 
@@ -117,6 +121,7 @@ sanitise input text, remove spaces etc
 - refactor html to improve elements inside the list
 - start using proper version
   
+
 12.11.19
 added webpack and sortoable js
 
