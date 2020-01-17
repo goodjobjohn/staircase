@@ -156,7 +156,7 @@ function itemTextKeyboardEvent(e, thisListNode, thisListIndex) {
   /** Tab */
   if (event.key === 'Tab') {
     event.preventDefault();
-    e.target.parentElement.classList.add('indent');
+    e.target.classList.add('indent');
   }
 
   /** Shift+Enter */

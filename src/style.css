@@ -99,7 +99,7 @@ ul {
   position: absolute;
   right: 10px;
   top: 5px;
-  content: " ";
+  content: ' ';
   height: 12px;
   width: 2px;
   background-color: #333;
@@ -158,6 +158,10 @@ ul {
   /* background-color: antiquewhite; */
   font-size: 12px;
   color: #575757;
+}
+.item__text.indent::before {
+  content: '-';
+  margin-right: 10px;
 }
 .item__text:focus {
   outline: none;
