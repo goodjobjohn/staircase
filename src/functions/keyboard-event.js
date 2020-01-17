@@ -29,6 +29,7 @@ function listContainerKeyDownEvent(e) {
       addItemKeyboardEvent(e, thisListNode, thisListIndex);
       break;
     case 'item__text':
+    case 'item__text indent':
       itemTextKeyboardEvent(e, thisListNode, thisListIndex);
       break;
   }
