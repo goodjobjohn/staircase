@@ -10,6 +10,7 @@ listContainer.addEventListener('keydown', listContainerKeyDownEvent);
 //IMPORT
 import { listData, listContainer } from '../app.js';
 import { getCaretPosition } from '../functions/caret-position.js';
+import { saveState } from '../functions/save-state';
 
 // ELEMENT SWITCH
 function listContainerKeyDownEvent(e) {
@@ -49,14 +50,15 @@ function titleKeyboardEvent(e, thisListNode, thisListIndex) {
       return;
     }
     // check to see if title value exists and prevent adding more than one input
-    if (currentTitle === 'blank') {
-      // add input 'add-item' to page
-      e.target.parentElement.insertAdjacentHTML('beforeend', addItem);
-    }
+    // if (currentTitle === 'blank') {
+    //   // add input 'add-item' to page
+    //   e.target.parentElement.insertAdjacentHTML('beforeend', addItem);
+    // }
     // focus on the new input
     e.target.parentElement.lastElementChild.focus();
     // store new title value
     listData[thisListIndex].title = title;
+    saveState();
   }
 }
 

@@ -13,15 +13,15 @@ export { listData, listContainer };
 // changed h2 to div - <h2 class="title" contenteditable="true" data-text="+ Add title"></h2>
 const listHTML = `<div id="list" class="list">
                       <div class="list__title" contenteditable="true" data-text="+ Add title"></div>
-                      <div class="list__delete close" contenteditable="false"></div>
+                      <div class="list__delete close"></div>
                       <ul></ul>
                     </div>`;
 
 const newItemHTML = `<li class="item">
                         <div class="item__text" contenteditable="true"></div>
-                        <div class="item__check" contenteditable="false"></div>
-                        <div class="item__delete" contenteditable="false"></div>
-                        <div class="item__handle" contenteditable="false"></div>
+                        <div class="item__check"></div>
+                        <div class="item__delete"></div>
+                        <div class="item__handle"></div>
                       </li>`;
 
 const addItem = `<input type="text" class="list__add-item" placeholder="+ Add item">`;
@@ -41,9 +41,9 @@ function loadStaircase(listData, listContainer) {
       }
       const item = `<li class="item ${checked}">
                         <div class="item__text" contenteditable="true">${items[i].itemText}</div>
-                        <div class="item__check" contenteditable="false"></div>
-                        <div class="item__delete" contenteditable="false"></div>
-                        <div class="item__handle" contenteditable="false"></div>
+                        <div class="item__check"></div>
+                        <div class="item__delete"></div>
+                        <div class="item__handle"></div>
                       </li>`;
       // push item into list of items
       listString.push(item);
@@ -53,8 +53,8 @@ function loadStaircase(listData, listContainer) {
     return listString.join('');
 
     // return `${items.map(item => `<li class="item" contenteditable="true">${item.itemText}
-    //                               <div class="item-check" contenteditable="false">C</div>
-    //                               <div class="item-delete" contenteditable="false">X</div>
+    //                               <div class="item-check">C</div>
+    //                               <div class="item-delete">X</div>
     //                             </li>`).join('')}`
   }
 
@@ -64,7 +64,7 @@ function loadStaircase(listData, listContainer) {
                 <div class="list__title" contenteditable="true" data-text="+ Add title">${
                   list.title
                 }</div>
-                <div class="list__delete close" contenteditable="false"></div>
+                <div class="list__delete close"></div>
                 <ul>${renderItems(list.items)}</ul>
                 <input type="text" class="list__add-item" placeholder="+ Add item">
               </div>`;
