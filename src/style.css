@@ -71,7 +71,7 @@ ul {
 .list__title {
   color: rgba(0, 0, 0, 0.62);
   font-size: 17px;
-  margin: 20px 0 10px 10px;
+  margin: 20px 0 10px 20px;
   display: inline-block;
 }
 .list__title:focus,
