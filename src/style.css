@@ -112,7 +112,7 @@ ul {
   background: none;
   color: #575757;
   border: none;
-  padding: 10px 5px 5px 10px;
+  padding: 10px 5px 5px 20px;
   margin-bottom: 20px;
 }
 .list__add-item::placeholder {
