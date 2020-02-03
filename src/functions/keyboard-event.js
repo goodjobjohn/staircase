@@ -5,22 +5,26 @@
 // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
 
 // EVENT
-listContainer.addEventListener('keydown', listContainerKeyDownEvent);
+listContainer.addEventListener('keydown', KeyboardEvent);
 
 //IMPORT
 import { listData, listContainer } from '../app.js';
 import { getCaretPosition } from '../functions/caret-position.js';
 import { saveState } from '../functions/save-state';
 
-// ELEMENT SWITCH
-function listContainerKeyDownEvent(e) {
+/**
+ * Acts as a filter directing the event.target to its
+ * appropriate function on a keydown event.
+ * @param {object} event.target
+ */
+
+function KeyboardEvent(e) {
   const thisListNode = e.target.closest('.list');
   let thisListIndex = Array.from(thisListNode.parentElement.children).indexOf(
     thisListNode
   );
   const target = e.target;
   const element = target.className;
-  console.log(element);
 
   switch (element) {
     case 'list__title':
@@ -29,9 +33,15 @@ function listContainerKeyDownEvent(e) {
     case 'list__add-item':
       addItemKeyboardEvent(e, thisListNode, thisListIndex);
       break;
+    // to test multiple cases you can use 'fall-through'
+    // as done below, simply stack the cases.
     case 'item__text':
     case 'item__text indent':
       itemTextKeyboardEvent(e, thisListNode, thisListIndex);
+      break;
+    case 'item__note':
+    case 'item__note noted':
+      itemNote(e);
       break;
   }
 }
@@ -68,7 +78,7 @@ function addItemKeyboardEvent(e, thisListNode, thisListIndex) {
     event.preventDefault();
     // grab value from input
     const itemText = e.target.value;
-    // decalare item values
+    // declare item values
     const newItem = {
       itemText,
       check: false
@@ -78,9 +88,10 @@ function addItemKeyboardEvent(e, thisListNode, thisListIndex) {
     // html to insert into list
     const itemHtml = `<li class="item">
                           <div class="item__text" contenteditable="true" data-text="Enter text here">${itemText}</div>
-                          <div class="item__check" contenteditable="false"></div>
-                          <div class="item__delete" contenteditable="false"></div>
-                          <div class="item__handle" contenteditable="false"></div>
+                          <div class="item__note" contenteditable="true"></div>
+                          <div class="item__check"></div>
+                          <div class="item__delete"></div>
+                          <div class="item__handle"></div>
                           </li>`;
     // insert html
     let unorderedList = thisListNode.querySelector('ul');
@@ -90,33 +101,44 @@ function addItemKeyboardEvent(e, thisListNode, thisListIndex) {
   }
 }
 
-// EXISTING ITEM
+// ITEM
 function itemTextKeyboardEvent(e, thisListNode, thisListIndex) {
-  /** Enter */
+  // Key 'Enter'
   if (event.key === 'Enter') {
-    event.preventDefault();
-    // grab value from input
-    const itemText = e.target.innerHTML;
-    // find index of item
-    const itemArray = Array.from(thisListNode.querySelector('ul').children);
-    // index of item
-    // needs -1 to account for title element in the nodelist
-    const itemIndex = itemArray.indexOf(e.target.parentElement);
-    // save item
-    listData[thisListIndex].items[itemIndex].itemText = itemText;
-    // insert new item below current item
-    const itemHtml = `<li class="item">
-                          <div class="item__text" contenteditable="true" data-text="Enter text here"></div>
-                          <div class="item__check" contenteditable="false"></div>
-                          <div class="item__delete" contenteditable="false"></div>
-                          <div class="item__handle" contenteditable="false"></div>
-                          </li>`;
-    e.target.parentElement.insertAdjacentHTML('afterend', itemHtml);
-    // move cursor to new item
-    e.target.parentElement.nextSibling.firstElementChild.focus();
+    // Key 'Shift+Enter'
+    if (e.shiftKey && e.code === 'Enter') {
+      event.preventDefault();
+      // move focus to note
+      e.target.nextElementSibling.classList.add('noted');
+      e.target.nextElementSibling.focus();
+    } else {
+      // Insert new item below current item
+      event.preventDefault();
+      console.log('ENTER');
+      // grab value from input
+      const itemText = e.target.innerHTML;
+      // find index of item
+      const itemArray = Array.from(thisListNode.querySelector('ul').children);
+      // index of item
+      // needs -1 to account for title element in the nodelist
+      const itemIndex = itemArray.indexOf(e.target.parentElement);
+      // save item
+      listData[thisListIndex].items[itemIndex].itemText = itemText;
+      // insert new item below current item
+      const itemHtml = `<li class="item">
+                            <div class="item__text" contenteditable="true"></div>
+                            <div class="item__note" contenteditable="true"></div>
+                            <div class="item__check"></div>
+                            <div class="item__delete"></div>
+                            <div class="item__handle"></div>
+                            </li>`;
+      e.target.parentElement.insertAdjacentHTML('afterend', itemHtml);
+      // move cursor to new item
+      e.target.parentElement.nextSibling.firstElementChild.focus();
 
-    // store item locally
-    localStorage.setItem('listData', JSON.stringify(listData));
+      // store item locally
+      localStorage.setItem('listData', JSON.stringify(listData));
+    }
   }
 
   /** ArrowDown */
@@ -161,9 +183,18 @@ function itemTextKeyboardEvent(e, thisListNode, thisListIndex) {
     event.preventDefault();
     e.target.classList.add('indent');
   }
+}
 
-  /** Shift+Enter */
+// ITEM NOTE
+function itemNote(e) {
   if (e.shiftKey && e.code === 'Enter') {
-    // Add note to item
+    event.preventDefault();
+    console.log(e.target.parentNode.firstElementChild);
+    e.target.parentNode.firstElementChild.focus();
+
+    // if note is empty remove .noted from element
+    if (e.target.innerHTML.length < 1) {
+      e.target.classList.remove('noted');
+    }
   }
 }

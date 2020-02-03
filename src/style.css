@@ -1,6 +1,7 @@
 /* COLOUR */
 :root {
   --cream: #fffcf5;
+  --highlight: mediumpurple;
 }
 
 html {
@@ -84,8 +85,8 @@ ul {
   display: none;
   top: 0;
   right: 0;
-  width: 32px;
-  height: 32px;
+  width: 22px;
+  height: 22px;
   opacity: 0.3;
 }
 .list:hover .list__delete {
@@ -129,12 +130,11 @@ ul {
   padding: 5px 10px 5px 20px;
   font-weight: 100;
   display: flex;
+  flex-direction: column;
   position: relative;
   text-align: left;
   z-index: 100;
   background-color: var(--cream);
-  height: 35px;
-  align-items: center;
 }
 .item:hover {
   box-shadow: 0px 0px 5px #33333329;
@@ -165,6 +165,18 @@ ul {
 }
 .item__text:focus {
   outline: none;
+}
+.item__note {
+  font-size: 75%;
+  margin: 5px 0 3px;
+  display: none;
+  color: var(--highlight);
+}
+.item__note:focus {
+  outline: none;
+}
+.item__note.noted {
+  display: block;
 }
 .item__delete,
 .item__check {

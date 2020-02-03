@@ -19,12 +19,13 @@ const listHTML = `<div id="list" class="list">
 
 const newItemHTML = `<li class="item">
                         <div class="item__text" contenteditable="true"></div>
+                        <div class="item__note" contenteditable="true></div>
                         <div class="item__check"></div>
                         <div class="item__delete"></div>
                         <div class="item__handle"></div>
                       </li>`;
 
-const addItem = `<input type="text" class="list__add-item" placeholder="+ Add item">`;
+const addItem = `<input type="text" class="list__add-item" placeholder="+">`;
 
 // STAIRCASE - FUNCTIONS
 // map listData and inside the map function loop through the lists.items array built the html
@@ -41,6 +42,7 @@ function loadStaircase(listData, listContainer) {
       }
       const item = `<li class="item ${checked}">
                         <div class="item__text" contenteditable="true">${items[i].itemText}</div>
+                        <div class="item__note" contenteditable="true"></div>
                         <div class="item__check"></div>
                         <div class="item__delete"></div>
                         <div class="item__handle"></div>
@@ -66,7 +68,7 @@ function loadStaircase(listData, listContainer) {
                 }</div>
                 <div class="list__delete close"></div>
                 <ul>${renderItems(list.items)}</ul>
-                <input type="text" class="list__add-item" placeholder="+ Add item">
+                <input type="text" class="list__add-item" placeholder="+">
               </div>`;
     })
     .join('');
