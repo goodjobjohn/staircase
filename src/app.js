@@ -43,9 +43,13 @@ function loadStaircase(listData, listContainer) {
       const item = `<li class="item ${checked}">
                         <div class="item__text" contenteditable="true">${items[i].itemText}</div>
                         <div class="item__note" contenteditable="true"></div>
-                        <div class="item__check"></div>
-                        <div class="item__delete"></div>
-                        <div class="item__handle"></div>
+                        <div class="absolute-top-left justify-end">
+                          <div class="item__check"></div>
+                          <div class="item__delete"></div>
+                        </div>
+                        <div class="absolute-top-left justify-start">
+                          <div class="item__handle"></div>
+                        </div>
                       </li>`;
       // push item into list of items
       listString.push(item);
@@ -83,8 +87,10 @@ function addNewList(e) {
   listContainer.insertAdjacentHTML('beforeend', listHTML);
 
   let lastListInNode = listContainer.lastElementChild;
+  console.log(lastListInNode);
   // move cursor to title of new list
-  lastListInNode.querySelector('.list__title').focus();
+  // lastListInNode.querySelector('.list__title').focus();
+  lastListInNode.firstElementChild.focus();
 
   newList = { title: 'blank', items: [] };
   // add new list to storage
@@ -170,7 +176,7 @@ function listClick(e) {
 // STAIRCASE - EVENT LISTENERS
 addListButton.addEventListener('click', addNewList);
 listContainer.addEventListener('click', listClick);
-// listContainer.addEventListener('focusout', focusOutEvent);
+listContainer.addEventListener('focusout', focusOutEvent);
 
 loadStaircase(listData, listContainer);
 
