@@ -10,4 +10,5 @@ export function saveState(trigger) {
   let lists = document.querySelector('#app');
   // save the to localStorage
   localStorage.setItem('appState', lists.innerHTML);
+  console.log('SAVE FUNCTION');
 }

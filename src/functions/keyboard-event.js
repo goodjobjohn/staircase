@@ -46,33 +46,54 @@ function KeyboardEvent(e) {
   }
 }
 
-// TITLE
+// ELEMENT :: TITLE
 function titleKeyboardEvent(e, thisListNode, thisListIndex) {
   if (event.key === 'Enter') {
     event.preventDefault();
-    // retrieve value from title element
+
+    // retrieve title from element
     const title = e.target.innerText;
-    // retrieve current stored value
-    const currentTitle = listData[thisListIndex].title;
+
     // throw warning if input is empty
     if (title === '') {
       alert('The list requires a name');
       return;
     }
-    // check to see if title value exists and prevent adding more than one input
-    // if (currentTitle === 'blank') {
-    //   // add input 'add-item' to page
-    //   e.target.parentElement.insertAdjacentHTML('beforeend', addItem);
-    // }
-    // focus on the new input
-    e.target.parentElement.lastElementChild.focus();
-    // store new title value
-    listData[thisListIndex].title = title;
+
+    let list = thisListNode.querySelector('ul');
+
+    // do we have items in the list?
+    if (list.children.length < 1) {
+      // add an item
+      const itemHTML = `<li class="item">
+                          <div class="item__text" contenteditable="true"></div>
+                          <div class="item__note" contenteditable="true"></div>
+                          <div class="absolute-top-left justify-end">
+                            <div class="item__check"></div>
+                            <div class="item__delete"></div>
+                          </div>
+                          <div class="absolute-top-left justify-start">
+                            <div class="item__handle"></div>
+                          </div>
+                        </li>`;
+
+      list.insertAdjacentHTML('beforeend', itemHTML);
+      list.firstElementChild.firstElementChild.focus();
+    } else {
+      // There are items, move cursor to first item.
+      list.firstElementChild.firstElementChild.focus();
+      console.log(list.firstElementChild.firstElementChild);
+    }
+
     saveState();
+  }
+
+  if (event.key === 'ArrowDown') {
+    thisListNode.querySelector('.item__text').focus();
   }
 }
 
-// NEW ITEM
+// ELEMENT :: ADD ITEM BUTTON
 function addItemKeyboardEvent(e, thisListNode, thisListIndex) {
   if (event.key === 'Enter') {
     event.preventDefault();
@@ -87,18 +108,23 @@ function addItemKeyboardEvent(e, thisListNode, thisListIndex) {
     listData[thisListIndex].items.push(newItem);
     // html to insert into list
     const itemHtml = `<li class="item">
-                          <div class="item__text" contenteditable="true" data-text="Enter text here">${itemText}</div>
-                          <div class="item__note" contenteditable="true"></div>
+                        <div class="item__text" contenteditable="true"></div>
+                        <div class="item__note" contenteditable="true"></div>
+                        <div class="absolute-top-left justify-end">
                           <div class="item__check"></div>
                           <div class="item__delete"></div>
+                        </div>
+                        <div class="absolute-top-left justify-start">
                           <div class="item__handle"></div>
-                          </li>`;
+                        </div>
+                      </li>`;
     // insert html
     let unorderedList = thisListNode.querySelector('ul');
     unorderedList.insertAdjacentHTML('beforeend', itemHtml);
     // clear the input
     e.target.value = '';
   }
+  saveState();
 }
 
 // ITEM
@@ -122,16 +148,19 @@ function itemTextKeyboardEvent(e, thisListNode, thisListIndex) {
       // index of item
       // needs -1 to account for title element in the nodelist
       const itemIndex = itemArray.indexOf(e.target.parentElement);
-      // save item
-      listData[thisListIndex].items[itemIndex].itemText = itemText;
+
       // insert new item below current item
       const itemHtml = `<li class="item">
-                            <div class="item__text" contenteditable="true"></div>
-                            <div class="item__note" contenteditable="true"></div>
+                          <div class="item__text" contenteditable="true"></div>
+                          <div class="item__note" contenteditable="true"></div>
+                          <div class="absolute-top-left justify-end">
                             <div class="item__check"></div>
                             <div class="item__delete"></div>
+                          </div>
+                          <div class="absolute-top-left justify-start">
                             <div class="item__handle"></div>
-                            </li>`;
+                          </div>
+                        </li>`;
       e.target.parentElement.insertAdjacentHTML('afterend', itemHtml);
       // move cursor to new item
       e.target.parentElement.nextSibling.firstElementChild.focus();
@@ -139,6 +168,7 @@ function itemTextKeyboardEvent(e, thisListNode, thisListIndex) {
       // store item locally
       localStorage.setItem('listData', JSON.stringify(listData));
     }
+    saveState();
   }
 
   /** ArrowDown */
@@ -154,6 +184,8 @@ function itemTextKeyboardEvent(e, thisListNode, thisListIndex) {
     event.preventDefault();
     if (e.target.parentNode.previousSibling != null) {
       e.target.parentNode.previousSibling.firstElementChild.focus();
+    } else {
+      thisListNode.querySelector('.list__title').focus();
     }
   }
 
@@ -176,6 +208,7 @@ function itemTextKeyboardEvent(e, thisListNode, thisListIndex) {
         item.remove();
       }
     }
+    saveState();
   }
 
   /** Tab */
@@ -197,4 +230,5 @@ function itemNote(e) {
       e.target.classList.remove('noted');
     }
   }
+  saveState();
 }

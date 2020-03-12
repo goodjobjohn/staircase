@@ -1,6 +1,9 @@
+import { saveState } from './functions/save-state';
+
 // STAIRCASE VARIABLES
 // list storage
 let listData = JSON.parse(localStorage.getItem('listData')) || [];
+// let appState = localStorage.getItem('appState') || [];
 var newList;
 
 // elements and buttons
@@ -15,33 +18,11 @@ const listHTML = `<div id="list" class="list">
                       <div class="list__title" contenteditable="true" data-text="+ Add title"></div>
                       <div class="list__delete close"></div>
                       <ul></ul>
+                      <button class="list__add-item" placeholder="+">+</button>
                     </div>`;
 
 const newItemHTML = `<li class="item">
                         <div class="item__text" contenteditable="true"></div>
-                        <div class="item__note" contenteditable="true></div>
-                        <div class="item__check"></div>
-                        <div class="item__delete"></div>
-                        <div class="item__handle"></div>
-                      </li>`;
-
-const addItem = `<input type="text" class="list__add-item" placeholder="+">`;
-
-// STAIRCASE - FUNCTIONS
-// map listData and inside the map function loop through the lists.items array built the html
-function loadStaircase(listData, listContainer) {
-  function renderItems(items) {
-    // create an array to push items into.
-    let listString = [];
-    // loop through items
-    for (let i = 0; i < items.length; i++) {
-      // check if item is checked
-      let checked = '';
-      if (items[i].check === true) {
-        checked = 'checked';
-      }
-      const item = `<li class="item ${checked}">
-                        <div class="item__text" contenteditable="true">${items[i].itemText}</div>
                         <div class="item__note" contenteditable="true"></div>
                         <div class="absolute-top-left justify-end">
                           <div class="item__check"></div>
@@ -51,35 +32,17 @@ function loadStaircase(listData, listContainer) {
                           <div class="item__handle"></div>
                         </div>
                       </li>`;
-      // push item into list of items
-      listString.push(item);
-      // reset
-      checked = '';
-    }
-    return listString.join('');
 
-    // return `${items.map(item => `<li class="item" contenteditable="true">${item.itemText}
-    //                               <div class="item-check">C</div>
-    //                               <div class="item-delete">X</div>
-    //                             </li>`).join('')}`
+const addItem = `<input type="text" class="list__add-item" placeholder="+">`;
+
+// STAIRCASE - FUNCTIONS
+// map listData and inside the map function loop through the lists.items array built the html
+function loadStaircase() {
+  var saved = localStorage.getItem('appState');
+
+  if (saved) {
+    listContainer.innerHTML = saved;
   }
-
-  const markup = listData
-    .map(list => {
-      return `<div id="list" class="list">
-                <div class="list__title" contenteditable="true" data-text="+ Add title">${
-                  list.title
-                }</div>
-                <div class="list__delete close"></div>
-                <ul>${renderItems(list.items)}</ul>
-                <input type="text" class="list__add-item" placeholder="+">
-              </div>`;
-    })
-    .join('');
-
-  // render html
-  listContainer.innerHTML = markup;
-  // console.log(markup);
 }
 
 function addNewList(e) {
@@ -97,36 +60,6 @@ function addNewList(e) {
   listData.push(newList);
 }
 
-// not being used
-function focusOutEvent(e) {
-  // which node in this event
-  // this = .lists element
-  // console.log(listContainer); // equals the the element losing focus
-
-  // TITLE :: UNFOCUS
-  if (e.target.matches('.list__title')) {
-    // get title value
-    let title = e.target.innerHTML;
-    // get index of list in lists
-    let el = e.target.parentElement; // .list
-    let index = Array.from(el.parentElement.children).indexOf(el); // index of list event belongs too
-    // storageObject[index].splice(index,1,title);
-    console.log('index:', index, 'text:', title, 'el:', this);
-  }
-
-  // ITEM :: UNFOCUS
-
-  if (e.target.matches('.item__text')) {
-    // get text value of item
-    let itemText = e.target.innerHTML;
-    // get index of item in list
-    let el = e.target.parentElement.parentElement; // .list
-    let index = Array.from(el.children).indexOf('li.item'); // index of item in list
-
-    console.log(index, itemText, el.children, 'el:', el);
-  }
-}
-
 function listClick(e) {
   // a click anywhere inside .lists triggers this function
   // here we identify the click event target and call the correct function
@@ -135,7 +68,7 @@ function listClick(e) {
     const thisListNode = e.target.closest('.list');
     const thisListIndex = Array.from(
       thisListNode.parentElement.children
-    ).indexOf(thisListNode);
+    ).indexOf(thisListNode); // find which list triggered the event
 
     // LIST :: DELETE
     if (e.target.matches('.list__delete')) {
@@ -145,40 +78,36 @@ function listClick(e) {
       e.target.parentNode.remove();
     }
 
-    // ITEM :: CHECK/DELETE
-    if (e.target.parentElement.matches('.item')) {
-      const listOfElements = thisListNode.querySelector('ul').children;
-      const itemArray = Array.from(listOfElements);
-      const itemIndex = itemArray.indexOf(e.target.parentElement);
-
-      if (e.target.matches('.item__check')) {
-        // toggle class 'checked' on item
-        e.target.parentElement.classList.toggle('checked');
-        // modify listData
-        if (e.target.parentElement.classList.contains('checked')) {
-          listData[thisListIndex].items[itemIndex].check = true;
-        } else {
-          listData[thisListIndex].items[itemIndex].check = false;
-        }
-      }
-      if (e.target.matches('.item__delete')) {
-        // remove item from listData
-        listData[thisListIndex].items.splice([itemIndex], 1);
-        // remove the item element from the node tree
-        e.target.parentNode.remove();
-      }
+    // ITEM :: CHECK
+    if (e.target.matches('.item__check')) {
+      // toggle class 'checked' on item
+      e.target.closest('.item').classList.toggle('checked');
     }
-    // update localStorage
-    localStorage.setItem('listData', JSON.stringify(listData));
+
+    // ITEM :: DELETE
+    if (e.target.matches('.item__delete')) {
+      // remove the item element from the node tree
+      e.target.closest('.item').remove();
+    }
+
+    // LIST :: ADD ITEM
+    if (e.target.matches('.list__add-item')) {
+      // add new item to bottom of list <ul>
+      e.target.previousSibling.previousSibling.insertAdjacentHTML(
+        'beforeend',
+        newItemHTML
+      );
+    }
+    saveState();
   }
 }
 
 // STAIRCASE - EVENT LISTENERS
 addListButton.addEventListener('click', addNewList);
 listContainer.addEventListener('click', listClick);
-listContainer.addEventListener('focusout', focusOutEvent);
+// listContainer.addEventListener('focusout', focusOutEvent);
 
-loadStaircase(listData, listContainer);
+loadStaircase();
 
 // Sortable (Drag n Drop)
 // var el = document.getElementById('list');
