@@ -214,7 +214,7 @@ function itemTextKeyboardEvent(e, thisListNode, thisListIndex) {
   /** Tab */
   if (event.key === 'Tab') {
     event.preventDefault();
-    e.target.classList.add('indent');
+    e.target.classList.toggle('indent');
   }
 }
 

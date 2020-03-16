@@ -1,4 +1,7 @@
 import { saveState } from './functions/save-state';
+import Sortable from 'sortablejs';
+import { v4 as uuidv4 } from 'uuid';
+console.log(uuidv4());
 
 // STAIRCASE VARIABLES
 // list storage
@@ -11,15 +14,6 @@ const listContainer = document.querySelector('.list-container');
 const addListButton = document.querySelector('[name=add-list]');
 
 export { listData, listContainer };
-
-// html to be inserted
-// changed h2 to div - <h2 class="title" contenteditable="true" data-text="+ Add title"></h2>
-const listHTML = `<div id="list" class="list">
-                      <div class="list__title" contenteditable="true" data-text="+ Add title"></div>
-                      <div class="list__delete close"></div>
-                      <ul></ul>
-                      <button class="list__add-item" placeholder="+">+</button>
-                    </div>`;
 
 const newItemHTML = `<li class="item">
                         <div class="item__text" contenteditable="true"></div>
@@ -46,13 +40,29 @@ function loadStaircase() {
 }
 
 function addNewList(e) {
+  const listID = uuidv4();
+  const listHTML = `<div id="list" class="list">
+                    <div class="list__title" contenteditable="true" data-text="+ Add title"></div>
+                    <div class="list__delete close"></div>
+                    <ul id="${listID}"></ul>
+                    <button class="list__add-item" placeholder="+">+</button>
+                  </div>                  
+                    `;
+
   // insert html into page
   listContainer.insertAdjacentHTML('beforeend', listHTML);
 
+  // create new sortable object
+  new Sortable(listID, {
+    handle: '.item__handle',
+    group: 'shared', // set both lists to same group
+    animation: 150,
+    draggable: '.item',
+    ghostClass: 'item__ghost'
+  });
+
   let lastListInNode = listContainer.lastElementChild;
-  console.log(lastListInNode);
   // move cursor to title of new list
-  // lastListInNode.querySelector('.list__title').focus();
   lastListInNode.firstElementChild.focus();
 
   newList = { title: 'blank', items: [] };
@@ -110,11 +120,18 @@ listContainer.addEventListener('click', listClick);
 loadStaircase();
 
 // Sortable (Drag n Drop)
-// var el = document.getElementById('list');
+var el = document.getElementById('thelist');
 // var sortable = Sortable.create(el);
 
-// List with handle
+// List with handlen
 // Sortable.create(list, {
-//   handle: '.glyphicon-move',
 //   animation: 150
 // });
+
+new Sortable(thelist, {
+  handle: '.item__handle',
+  // group: 'shared', // set both lists to same group
+  animation: 150,
+  draggable: '.item',
+  ghostClass: 'item__ghost'
+});

@@ -25,8 +25,8 @@
   },
   "homepage": "https://github.com/goodjobjohn/staircase#readme",
   "dependencies": {
-    "@types/sortablejs": "^1.10.0",
-    "sortablejs": "^1.10.1"
+    "sortablejs": "^1.10.1",
+    "uuid": "^7.0.2"
   },
   "devDependencies": {
     "autoprefixer": "^9.7.3",
